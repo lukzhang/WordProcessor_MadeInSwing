@@ -4,10 +4,9 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.StyledDocument;
 import javax.swing.text.html.HTML;
 import javax.swing.text.html.HTMLEditorKit;
-import java.io.BufferedOutputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class SaveContent {
     String formattedText;
@@ -27,23 +26,46 @@ public class SaveContent {
             }
 
             if(option == JFileChooser.APPROVE_OPTION){
-                StyledDocument doc = (StyledDocument)text.getDocument();
-                HTMLEditorKit kit = new HTMLEditorKit();
-                BufferedOutputStream out;
-
-                try{
-                    out = new BufferedOutputStream(new FileOutputStream(filePath));
-                    kit.write(out,doc,doc.getStartPosition().getOffset(), doc.getLength());
-                } catch(FileNotFoundException e){
-
-                } catch(IOException e){
-
-                } catch(BadLocationException e){
-
-                }
+                saveFile(text, filePath);
             } else{
                 System.out.println("SAVE CANCCELED");
             }
+        }
+
+        makeDir();
+        saveFile(text, "../MyJavaProjects/backups/testDir/copy1.rtf");
+    }
+
+
+    public void makeDir(){
+        //Add a folder
+        File f = new File("../MyJavaProjects/backups/testDir");
+        if(!f.exists()) {
+            boolean success = (new File("../MyJavaProjects/backups/testDir")).mkdirs();
+            if (!success) {
+                // Directory creation failed
+                System.out.println("FAIL CREATE DIR");
+            }
+        }
+        else {
+            System.out.println("ALREADY EXISTS");
+        }
+    }
+
+    public void saveFile(JTextPane text, String filePath){
+        StyledDocument doc = (StyledDocument)text.getDocument();
+        HTMLEditorKit kit = new HTMLEditorKit();
+        BufferedOutputStream out;
+
+        try{
+            out = new BufferedOutputStream(new FileOutputStream(filePath));
+            kit.write(out,doc,doc.getStartPosition().getOffset(), doc.getLength());
+        } catch(FileNotFoundException e){
+
+        } catch(IOException e){
+
+        } catch(BadLocationException e){
+
         }
     }
 }
