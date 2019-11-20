@@ -4,12 +4,24 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.StyledDocument;
 import javax.swing.text.html.HTML;
 import javax.swing.text.html.HTMLEditorKit;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+
+//***********TO DO****************
+//Find a way to store file data and nonce for each file saved...
+//Then, dynamically increment the copy index (copy1, copy2, etc.)
+//*******************************
+
+
 public class SaveContent {
     String formattedText;
+
+    ReadWriteXML readWriteXML = new ReadWriteXML();
 
     public void save(JTextPane text){
         if(text.getText().length() > 0){
@@ -32,16 +44,29 @@ public class SaveContent {
             }
         }
 
-        makeDir();
+        makeDir("../MyJavaProjects/backups/testDir");
         saveFile(text, "../MyJavaProjects/backups/testDir/copy1.rtf");
+
+        //Update XML file containing how many copies for the user's respecitve file
+        makeDir("../MyJavaProjects/UserData");
+        try{
+            readWriteXML.writeXML();
+        } catch(ParserConfigurationException e){
+
+        } catch (TransformerConfigurationException e){
+
+        } catch (TransformerException e){
+
+        }
+
     }
 
 
-    public void makeDir(){
+    public void makeDir(String dirPath){
         //Add a folder
-        File f = new File("../MyJavaProjects/backups/testDir");
+        File f = new File(dirPath);
         if(!f.exists()) {
-            boolean success = (new File("../MyJavaProjects/backups/testDir")).mkdirs();
+            boolean success = (new File(dirPath)).mkdirs();
             if (!success) {
                 // Directory creation failed
                 System.out.println("FAIL CREATE DIR");
