@@ -20,6 +20,7 @@ import java.nio.file.Paths;
 
 public class SaveContent {
     String formattedText;
+    String filename;
 
     ReadWriteXML readWriteXML = new ReadWriteXML();
 
@@ -42,21 +43,41 @@ public class SaveContent {
             } else{
                 System.out.println("SAVE CANCCELED");
             }
+
+            filename = chooser.getSelectedFile().getName();
+            System.out.println(filename);
         }
 
-        makeDir("../MyJavaProjects/backups/testDir");
-        saveFile(text, "../MyJavaProjects/backups/testDir/copy1.rtf");
+        String copyName = filename+"_COPY.rtf";
+
+        makeDir("../WordProcessor_MadeInSwing/backups/testDir");
+        saveFile(text, "../WordProcessor_MadeInSwing/backups/testDir/"+copyName);
 
         //Update XML file containing how many copies for the user's respecitve file
-        makeDir("../MyJavaProjects/UserData");
+        makeDir("../WordProcessor_MadeInSwing/UserData");
         try{
-            readWriteXML.writeXML();
+            readWriteXML.writeXML(filename);
         } catch(ParserConfigurationException e){
 
         } catch (TransformerConfigurationException e){
 
         } catch (TransformerException e){
 
+        } catch (Exception e){
+
+        }
+
+        try{
+            readWriteXML.appendXML();
+        } catch(Exception e){
+            System.out.println(e);
+        }
+
+        try{
+            System.out.println(readWriteXML.containsFileXML(filename));
+            //readWriteXML.readXML();
+        } catch(Exception e){
+            System.out.println(e);  //In case file is not found
         }
 
     }
@@ -93,4 +114,5 @@ public class SaveContent {
 
         }
     }
+
 }
