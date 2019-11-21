@@ -3,11 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="fb31a0bf-94ab-4fef-89b2-a745538e0676" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UserData/data.xml" beforeDir="false" afterPath="$PROJECT_DIR$/UserData/data.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backups/testDir/copy1.rtf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/MyJavaProjects/SaveContent.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/MyJavaProjects/SaveContent.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backups/testDir/test.rtf_COPY.rtf" beforeDir="false" afterPath="$PROJECT_DIR$/backups/testDir/test.rtf_COPY.rtf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ReadWriteXML.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ReadWriteXML.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/SaveContent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/SaveContent.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
