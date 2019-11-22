@@ -11,6 +11,9 @@ public class Display extends JPanel implements ActionListener {
     private JComboBox fontCombo;
     private JLabel processorLabel;
     private JSlider fontSize;
+    private JTextField nonceField;
+    private JLabel nonceLabel;
+    private JButton retrieveBtn;
 
     //Create some method objects
     SaveContent saveFile = new SaveContent();
@@ -40,6 +43,9 @@ public class Display extends JPanel implements ActionListener {
         fontCombo = new JComboBox(fontItems);
         processorLabel = new JLabel("Luke's Word Processor");
         fontSize = new JSlider(10,30);
+        nonceField = new JTextField(100);
+        nonceLabel = new JLabel("Select Copy Version");
+        retrieveBtn = new JButton("Retrieve Copy");
 
         //Work with slider
         fontSize.setOrientation(JSlider.HORIZONTAL);
@@ -63,14 +69,20 @@ public class Display extends JPanel implements ActionListener {
         add (fontCombo);
         add (processorLabel);
         add (fontSize);
+        add (nonceField);
+        add (nonceLabel);
+        add (retrieveBtn);
 
         //Set boundaries
         textArea.setBounds(10, 10, 650, 450);
-        saveButton.setBounds(670, 315, 140, 35);
+        saveButton.setBounds(670, 270, 140, 35);
         colorCombo.setBounds(670, 205, 140, 53);
         fontCombo.setBounds(670, 150, 140, 35);
         processorLabel.setBounds(670, 20, 140, 35);
         fontSize.setBounds(670, 95, 140, 49);
+        nonceField.setBounds(670, 355, 140, 30);
+        nonceLabel.setBounds(670, 325, 140, 30);
+        retrieveBtn.setBounds(670, 395, 140, 35);
 
         //Add action listeners
         saveButton.addActionListener(this);
@@ -87,6 +99,9 @@ public class Display extends JPanel implements ActionListener {
         } if(e.getSource() == fontCombo){
             fontClass.selectFont(fontCombo.getSelectedItem().toString(), fontSize.getValue());
             textArea.setFont(fontClass.getFont());
+        } if(e.getSource() == retrieveBtn){
+            //Enter Text from DocCopy into textbox
+
         }
     }
 
