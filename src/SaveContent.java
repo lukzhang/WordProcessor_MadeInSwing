@@ -23,6 +23,7 @@ public class SaveContent {
     String filename;
 
     ReadWriteXML readWriteXML = new ReadWriteXML();
+    WriteControllerXML writeControllerXML = new WriteControllerXML();
 
     public void save(JTextPane text){
         if(text.getText().length() > 0){
@@ -81,6 +82,15 @@ public class SaveContent {
         }
 
         readWriteXML.incrementNonceXML("some doc");
+
+        try{
+            writeControllerXML.saveCopy("some doc");
+        } catch(Exception e){
+
+        }
+
+
+
     }
 
 
