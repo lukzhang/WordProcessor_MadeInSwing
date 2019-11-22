@@ -80,6 +80,7 @@ public class SaveContent {
             System.out.println(e);  //In case file is not found
         }
 
+        readWriteXML.incrementNonceXML("some doc");
     }
 
 

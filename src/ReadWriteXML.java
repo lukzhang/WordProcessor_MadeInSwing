@@ -181,7 +181,7 @@ public class ReadWriteXML {
 
     //Taken from: https://www.mkyong.com/java/how-to-modify-xml-file-in-java-dom-parser/
     //Use their xml as example to follow along
-    public void updateXML(){
+    public void incrementNonceXML(String docToFind){
 
         try {
             String filepath = xmlPath;
@@ -189,54 +189,46 @@ public class ReadWriteXML {
             DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
             Document doc = docBuilder.parse(filepath);
 
-            // Get the root element
-            Node company = doc.getFirstChild();
-
-            // Get the staff element , it may not working if tag has spaces, or
-            // whatever weird characters in front...it's better to use
-            // getElementsByTagName() to get it directly.
-            // Node staff = company.getFirstChild();
-
             // Get the staff element by tag name directly
             Node staff = doc.getElementsByTagName("DocName").item(0);
 
             // update staff attribute
             NamedNodeMap attr = staff.getAttributes();
             Node nodeAttr = attr.getNamedItem("name");
-            nodeAttr.setTextContent("SomeCOolName!");
+            nodeAttr.setTextContent("UpdatedName!");
 
             // append a new node to staff
-            Element age = doc.createElement("age");
-            age.appendChild(doc.createTextNode("28"));
+            Element age = doc.createElement("DateCreated");
+            age.appendChild(doc.createTextNode("UpdatedDate"));
             staff.appendChild(age);
 
             // loop the staff child node
             NodeList list = staff.getChildNodes();
 
-            for (int i = 0; i < list.getLength(); i++) {
+            for (int i = 0; i < list.getLength()-1; i++) {
 
                 Node node = list.item(i);
 
-                // get the salary element, and update the value
-                if ("salary".equals(node.getNodeName())) {
-                    node.setTextContent("2000000");
-                }
+                Node currDoc = doc.getElementsByTagName("DocName").item(i);
 
-                //remove firstname
-                if ("firstname".equals(node.getNodeName())) {
-                    staff.removeChild(node);
-                }
+                // update staff attribute
+                NamedNodeMap currAttb = currDoc.getAttributes();
+                Node currName = currAttb.getNamedItem("name");
 
+                if(docToFind.equals(currName.getTextContent())){
+                    Node currNonce = doc.getElementsByTagName("Nonce").item(i);
+                    int highestNonce = Integer.parseInt(currNonce.getTextContent().toString());
+                    highestNonce += 1;
+                    currNonce.setTextContent(""+highestNonce);
+                }
             }
 
             // write the content into xml file
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
             DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(new File(filepath));
+            StreamResult result = new StreamResult(new File(xmlPath));
             transformer.transform(source, result);
-
-            System.out.println("Done");
 
         } catch (ParserConfigurationException pce) {
             pce.printStackTrace();
@@ -247,7 +239,6 @@ public class ReadWriteXML {
         } catch (org.xml.sax.SAXException e) {
             e.printStackTrace();
         }
-
     }
 
 }

@@ -1,1 +1,1 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><MyFiles><DocName name="test.rtf"><Nonce>1</Nonce><DateCreated>March 7, 2142</DateCreated></DocName><DocName name="some doc"><Nonce>99</Nonce><DateCreated>Longtimeago</DateCreated></DocName></MyFiles>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><MyFiles><DocName name="UpdatedName!"><Nonce>1</Nonce><DateCreated>March 7, 2142</DateCreated><DateCreated>UpdatedDate</DateCreated></DocName><DocName name="some doc"><Nonce>100</Nonce><DateCreated>Longtimeago</DateCreated></DocName></MyFiles>
