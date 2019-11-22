@@ -13,8 +13,7 @@ import java.nio.file.Paths;
 
 
 //***********TO DO****************
-//Find a way to store file data and nonce for each file saved...
-//Then, dynamically increment the copy index (copy1, copy2, etc.)
+//Allow handling of multiple file types .doc, .rtf, etc.
 //*******************************
 
 
