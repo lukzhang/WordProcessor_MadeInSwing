@@ -22,65 +22,6 @@ public class ReadWriteXML {
 
     public String xmlPath = "../WordProcessor_MadeInSwing/UserData/data.xml";
 
-//    public void readXML() throws Exception{
-//        File xmlFile = new File("../WordProcessor_MadeInSwing/UserData/data.xml");
-//
-//        DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-//        DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-//        Document document = documentBuilder.parse(xmlFile);
-//
-//        NodeList list = document.getElementsByTagName("Developer");
-//        int len = list.getLength(); //Does xml contain name?
-//        System.out.println(len);
-//
-//        for(int i=0; i<list.getLength(); i++){
-//            Node node = list.item(i);
-//
-//            if(node.getNodeType()==Node.ELEMENT_NODE){
-//                Element element = (Element)node;
-//                System.out.println("ID: "+ element.getAttribute("Id"));
-//                System.out.println("Name : "+element.getElementsByTagName("Name").item(0).getTextContent());
-//                System.out.println("Surname : "+element.getElementsByTagName("Surname").item(0).getTextContent());
-//                System.out.println("Age : "+element.getElementsByTagName("Age").item(0).getTextContent());
-//            }
-//        }
-//    }
-
-//    public void writeXML() throws ParserConfigurationException, TransformerConfigurationException, TransformerException {
-//        DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-//        DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-//
-//        Document document = documentBuilder.newDocument();
-//
-//        Element element = document.createElement("Developer");
-//        document.appendChild(element);
-//
-//        Attr attr = document.createAttribute("Id");
-//        attr.setValue("1");
-//        element.setAttributeNode(attr);
-//
-//        Element name = document.createElement("Name");
-//        name.appendChild(document.createTextNode("Bruv"));
-//        element.appendChild(name);
-//
-//        Element surname = document.createElement("Surname");
-//        surname.appendChild(document.createTextNode("Hendrix"));
-//        element.appendChild(surname);
-//
-//        Element age = document.createElement("Age");
-//        age.appendChild(document.createTextNode("21"));
-//        element.appendChild(age);
-//
-//        TransformerFactory transformerFactory = TransformerFactory.newInstance();
-//        Transformer transformer = transformerFactory.newTransformer();
-//        DOMSource source = new DOMSource(document);
-//
-//        StreamResult streamResult = new StreamResult(new File("/UserData/data.xml"));
-//
-//        transformer.transform(source, streamResult);
-//
-//    }
-
     public boolean containsFileXML(String currFile) throws Exception{
         File xmlFile = new File(xmlPath);
 
@@ -90,7 +31,7 @@ public class ReadWriteXML {
 
         NodeList list = document.getElementsByTagName("DocName");
 
-        for(int i=0; i<list.getLength(); i++){
+        for(int i=0; i<document.getElementsByTagName("DocName").getLength(); i++){
             Node node = list.item(i);
 
             if(node.getNodeType()==Node.ELEMENT_NODE){
@@ -142,7 +83,7 @@ public class ReadWriteXML {
 
     }
 
-    public void appendXML() throws Exception{
+    public void appendXML(String docName) throws Exception{
         File xmlFile = new File(xmlPath);
 
         DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
@@ -154,11 +95,11 @@ public class ReadWriteXML {
 
         // create new Employee
         Element employee = doc.createElement("DocName");
-        employee.setAttribute("name", "some doc");
+        employee.setAttribute("name", docName);
 
         // create child nodes
         Element firstName = doc.createElement("Nonce");
-        firstName.appendChild(doc.createTextNode("99"));
+        firstName.appendChild(doc.createTextNode("1"));
 
         Element lastName = doc.createElement("DateCreated");
         lastName.appendChild(doc.createTextNode("Longtimeago"));
@@ -192,22 +133,11 @@ public class ReadWriteXML {
             // Get the staff element by tag name directly
             Node staff = doc.getElementsByTagName("DocName").item(0);
 
-            // update staff attribute
-            NamedNodeMap attr = staff.getAttributes();
-            Node nodeAttr = attr.getNamedItem("name");
-            nodeAttr.setTextContent("UpdatedName!");
-
-            // append a new node to staff
-            Element age = doc.createElement("DateCreated");
-            age.appendChild(doc.createTextNode("UpdatedDate"));
-            staff.appendChild(age);
-
             // loop the staff child node
             NodeList list = staff.getChildNodes();
 
-            for (int i = 0; i < list.getLength()-1; i++) {
 
-                Node node = list.item(i);
+            for (int i = 0; i < doc.getElementsByTagName("DocName").getLength(); i++) {
 
                 Node currDoc = doc.getElementsByTagName("DocName").item(i);
 
@@ -217,8 +147,9 @@ public class ReadWriteXML {
 
                 if(docToFind.equals(currName.getTextContent())){
                     Node currNonce = doc.getElementsByTagName("Nonce").item(i);
-                    int highestNonce = Integer.parseInt(currNonce.getTextContent().toString());
+                    int highestNonce = Integer.parseInt(currNonce.getTextContent());
                     highestNonce += 1;
+                    System.out.println(highestNonce);
                     currNonce.setTextContent(""+highestNonce);
                 }
             }
@@ -239,6 +170,49 @@ public class ReadWriteXML {
         } catch (org.xml.sax.SAXException e) {
             e.printStackTrace();
         }
+    }
+
+    public int highestNonce(String docToFind){
+
+        try {
+            String filepath = xmlPath;
+            DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+            Document doc = docBuilder.parse(filepath);
+
+            // Get the staff element by tag name directly
+            Node staff = doc.getElementsByTagName("DocName").item(0);
+
+            // loop the staff child node
+            NodeList list = staff.getChildNodes();
+
+            for (int i = 0; i < doc.getElementsByTagName("DocName").getLength(); i++) {
+
+                Node node = list.item(i);
+
+                Node currDoc = doc.getElementsByTagName("DocName").item(i);
+
+                // update staff attribute
+                NamedNodeMap currAttb = currDoc.getAttributes();
+                Node currName = currAttb.getNamedItem("name");
+                System.out.println(currName.getTextContent());
+
+                if(docToFind.equals(currName.getTextContent())){
+                    Node currNonce = doc.getElementsByTagName("Nonce").item(i);
+                    int highestNonce = Integer.parseInt(currNonce.getTextContent());
+                    return highestNonce;
+                }
+            }
+
+        } catch (ParserConfigurationException pce) {
+            pce.printStackTrace();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        } catch (org.xml.sax.SAXException e) {
+            e.printStackTrace();
+        }
+
+        return 0; //Return 0 if doc not fouund
     }
 
 }

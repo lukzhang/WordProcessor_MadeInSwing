@@ -49,47 +49,40 @@ public class SaveContent {
             System.out.println(filename);
         }
 
-        String copyName = filename+"_COPY.rtf";
-
-        makeDir("../WordProcessor_MadeInSwing/backups/testDir");
-        saveFile(text, "../WordProcessor_MadeInSwing/backups/testDir/"+copyName);
-
         //Update XML file containing how many copies for the user's respecitve file
         makeDir("../WordProcessor_MadeInSwing/UserData");
-        try{
-            readWriteXML.writeXML(filename);
-        } catch(ParserConfigurationException e){
 
-        } catch (TransformerConfigurationException e){
-
-        } catch (TransformerException e){
-
-        } catch (Exception e){
-
+        //Initially, doesn't add extentsion to filename
+        String lastFourChars = filename.substring(filename.length()-4);
+        if(!lastFourChars.equals(".rtf")){
+            filename=filename+".rtf";
         }
+        System.out.println("HERE"+filename);
 
+        //I guess I'll save the copy to XML first after nonce is incremented,
+        //and then save the file to a folder with the updated nonce
         try{
-            readWriteXML.appendXML();
-        } catch(Exception e){
-            System.out.println(e);
-        }
-
-        try{
-            System.out.println(readWriteXML.containsFileXML(filename));
-            //readWriteXML.readXML();
+            writeControllerXML.saveCopy(filename);
         } catch(Exception e){
             System.out.println(e);  //In case file is not found
         }
 
-        readWriteXML.incrementNonceXML("some doc");
+        //Write the copy with highest nonce (COPY1, COPY2, etc.)
+        makeDir("../WordProcessor_MadeInSwing/backups/testDir");    //Method handles if it already has dir. If so, don't mkdir
 
-        try{
-            writeControllerXML.saveCopy("some doc");
-        } catch(Exception e){
+        int highestNonce = writeControllerXML.highestDocNonce(filename);
 
+        lastFourChars = filename.substring(filename.length()-4);
+        String copyName = filename;
+        if(lastFourChars.equals(".rtf")){
+            String firstPart = filename.substring(0, filename.length() - 4);    //Remove the .rtf... In the future make a moethod to handle all doc types
+            copyName = firstPart+"_COPY"+highestNonce+".rtf";
         }
-
-
+        else{
+            copyName = filename+"_COPY"+highestNonce+".rtf";
+        }
+        System.out.println("COPYNAME: "+copyName);
+        saveFile(text, "../WordProcessor_MadeInSwing/backups/testDir/"+copyName);
 
     }
 
@@ -105,7 +98,7 @@ public class SaveContent {
             }
         }
         else {
-            System.out.println("ALREADY EXISTS");
+            //System.out.println("ALREADY EXISTS");
         }
     }
 
