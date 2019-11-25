@@ -102,7 +102,7 @@ public class Display extends JPanel implements ActionListener {
 
     public void actionPerformed(ActionEvent e){
         if(e.getSource()==saveButton){
-            saveFile.save(textArea);
+            System.out.println("HERE" +saveFile.save(textArea));    //Store the current doc name after you save or load...
         } if(e.getSource()==colorCombo){
             colorClass.selectColor(colorCombo.getSelectedItem().toString());
             textArea.setForeground(colorClass.getColor());

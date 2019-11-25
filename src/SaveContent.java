@@ -24,7 +24,7 @@ public class SaveContent {
     ReadWriteXML readWriteXML = new ReadWriteXML();
     WriteControllerXML writeControllerXML = new WriteControllerXML();
 
-    public void save(JTextPane text){
+    public String save(JTextPane text){
         if(text.getText().length() > 0){
             JFileChooser chooser = new JFileChooser();
             chooser.setMultiSelectionEnabled(false);
@@ -83,6 +83,7 @@ public class SaveContent {
         System.out.println("COPYNAME: "+copyName);
         saveFile(text, "../WordProcessor_MadeInSwing/backups/testDir/"+copyName);
 
+        return filename;
     }
 
 
