@@ -11,6 +11,8 @@ public class Display extends JPanel implements ActionListener {
     private JComboBox fontCombo;
     private JLabel processorLabel;
     private JSlider fontSize;
+    private JTextField docNameField;
+    private JLabel docNameLabel;
     private JTextField nonceField;
     private JLabel nonceLabel;
     private JButton retrieveBtn;
@@ -19,6 +21,7 @@ public class Display extends JPanel implements ActionListener {
     SaveContent saveFile = new SaveContent();
     ColorManagement colorClass = new ColorManagement();
     FontManagement fontClass = new FontManagement();
+    LoadContent loadContent = new LoadContent();
     Main main = new Main();
 
     //Create some arrays
@@ -41,8 +44,10 @@ public class Display extends JPanel implements ActionListener {
         saveButton = new JButton("Save");
         colorCombo = new JComboBox(colorItems);
         fontCombo = new JComboBox(fontItems);
-        processorLabel = new JLabel("Luke's Word Processor");
+        processorLabel = new JLabel("Nya Writer");
         fontSize = new JSlider(10,30);
+        docNameField = new JTextField(100);
+        docNameLabel = new JLabel("Select Doc Name");
         nonceField = new JTextField(100);
         nonceLabel = new JLabel("Select Copy Version");
         retrieveBtn = new JButton("Retrieve Copy");
@@ -69,6 +74,8 @@ public class Display extends JPanel implements ActionListener {
         add (fontCombo);
         add (processorLabel);
         add (fontSize);
+        add (docNameField);
+        add (docNameLabel);
         add (nonceField);
         add (nonceLabel);
         add (retrieveBtn);
@@ -80,14 +87,17 @@ public class Display extends JPanel implements ActionListener {
         fontCombo.setBounds(670, 150, 140, 35);
         processorLabel.setBounds(670, 20, 140, 35);
         fontSize.setBounds(670, 95, 140, 49);
-        nonceField.setBounds(670, 355, 140, 30);
-        nonceLabel.setBounds(670, 325, 140, 30);
-        retrieveBtn.setBounds(670, 395, 140, 35);
+        docNameField.setBounds(670, 345, 140, 30);
+        docNameLabel.setBounds(670, 320, 140, 30);
+        nonceField.setBounds(670, 395, 140, 30);
+        nonceLabel.setBounds(670, 370, 140, 30);
+        retrieveBtn.setBounds(670, 430, 140, 35);
 
         //Add action listeners
         saveButton.addActionListener(this);
         colorCombo.addActionListener(this);
         fontCombo.addActionListener(this);
+        retrieveBtn.addActionListener(this);
     }
 
     public void actionPerformed(ActionEvent e){
@@ -100,8 +110,11 @@ public class Display extends JPanel implements ActionListener {
             fontClass.selectFont(fontCombo.getSelectedItem().toString(), fontSize.getValue());
             textArea.setFont(fontClass.getFont());
         } if(e.getSource() == retrieveBtn){
-            //Enter Text from DocCopy into textbox
-
+            String home = "../WordProcessor_MadeInSwing/backups/testDir/";
+            String doc = docNameField.getText();
+            String version = nonceField.getText();
+            String currPath = home + doc + "_COPY" +version+".rtf";
+            loadContent.getSpan(textArea, currPath);
         }
     }
 
