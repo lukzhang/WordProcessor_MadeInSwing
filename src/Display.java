@@ -17,6 +17,9 @@ public class Display extends JPanel implements ActionListener {
     private JLabel nonceLabel;
     private JButton retrieveBtn;
 
+    //Displays what the current doc is
+    private String currDoc = "";
+
     //Create some method objects
     SaveContent saveFile = new SaveContent();
     ColorManagement colorClass = new ColorManagement();
@@ -44,7 +47,7 @@ public class Display extends JPanel implements ActionListener {
         saveButton = new JButton("Save");
         colorCombo = new JComboBox(colorItems);
         fontCombo = new JComboBox(fontItems);
-        processorLabel = new JLabel("Nya Writer");
+        processorLabel = new JLabel("Current Doc: "+currDoc);
         fontSize = new JSlider(10,30);
         docNameField = new JTextField(100);
         docNameLabel = new JLabel("Select Doc Name");
@@ -102,7 +105,8 @@ public class Display extends JPanel implements ActionListener {
 
     public void actionPerformed(ActionEvent e){
         if(e.getSource()==saveButton){
-            System.out.println("HERE" +saveFile.save(textArea));    //Store the current doc name after you save or load...
+            currDoc = saveFile.save(textArea);    //Store the current doc name after you save or load...
+            processorLabel.setText("Current Doc: "+currDoc);
         } if(e.getSource()==colorCombo){
             colorClass.selectColor(colorCombo.getSelectedItem().toString());
             textArea.setForeground(colorClass.getColor());
@@ -113,6 +117,12 @@ public class Display extends JPanel implements ActionListener {
             String home = "../WordProcessor_MadeInSwing/backups/testDir/";
             String doc = docNameField.getText();
             String version = nonceField.getText();
+
+            //If user enters field, use that. Otherwise, use whatever current doc is
+            if(doc.isEmpty()){
+                doc = currDoc;
+            }
+
             String currPath = home + doc + "_COPY" +version+".rtf";
             loadContent.getSpan(textArea, currPath);
         }

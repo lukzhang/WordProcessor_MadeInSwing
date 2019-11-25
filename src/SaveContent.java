@@ -20,6 +20,7 @@ import java.nio.file.Paths;
 public class SaveContent {
     String formattedText;
     String filename;
+    String prename;
 
     ReadWriteXML readWriteXML = new ReadWriteXML();
     WriteControllerXML writeControllerXML = new WriteControllerXML();
@@ -75,6 +76,7 @@ public class SaveContent {
         String copyName = filename;
         if(lastFourChars.equals(".rtf")){
             String firstPart = filename.substring(0, filename.length() - 4);    //Remove the .rtf... In the future make a moethod to handle all doc types
+            prename = firstPart;
             copyName = firstPart+"_COPY"+highestNonce+".rtf";
         }
         else{
@@ -83,7 +85,7 @@ public class SaveContent {
         System.out.println("COPYNAME: "+copyName);
         saveFile(text, "../WordProcessor_MadeInSwing/backups/testDir/"+copyName);
 
-        return filename;
+        return prename;
     }
 
 
