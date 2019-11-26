@@ -41,13 +41,20 @@ public class SaveContent {
 
             if(option == JFileChooser.APPROVE_OPTION){
                 saveFile(text, filePath);
+                return saveCopy(text, chooser);
             } else{
                 System.out.println("SAVE CANCCELED");
             }
 
-            filename = chooser.getSelectedFile().getName();
-            System.out.println(filename);
+
         }
+
+       return "";
+    }
+
+    public String saveCopy(JTextPane text, JFileChooser chooser){
+        filename = chooser.getSelectedFile().getName();
+        System.out.println(filename);
 
         //Update XML file containing how many copies for the user's respecitve file
         makeDir("../WordProcessor_MadeInSwing/UserData");
