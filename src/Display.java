@@ -17,6 +17,13 @@ public class Display extends JPanel implements ActionListener {
     private JLabel nonceLabel;
     private JButton retrieveBtn;
 
+    //Image, videos....
+    private ImageIcon image1;
+    private JLabel label1;
+    private ImageIcon image2;
+    private JLabel label2;
+
+
     //Displays what the current doc is
     private String currDoc = "";
 
@@ -54,6 +61,9 @@ public class Display extends JPanel implements ActionListener {
         nonceField = new JTextField(100);
         nonceLabel = new JLabel("Select Copy Version");
         retrieveBtn = new JButton("Retrieve Copy");
+        image1 = new ImageIcon(getClass().getResource("/clouds.png"));
+        label1 = new JLabel(image1);
+
 
         //Work with slider
         fontSize.setOrientation(JSlider.HORIZONTAL);
@@ -63,8 +73,8 @@ public class Display extends JPanel implements ActionListener {
         fontSize.setPaintLabels(true);
 
         //Make the text area look presentable
-        textArea.setBackground(Color.LIGHT_GRAY);
-        //textArea.setForeground(color);
+        //textArea.setBackground(Color.WHITE);
+        textArea.setOpaque(false);
 
         //Adjust size and layout
         setPreferredSize(new Dimension(817, 473));
@@ -82,6 +92,7 @@ public class Display extends JPanel implements ActionListener {
         add (nonceField);
         add (nonceLabel);
         add (retrieveBtn);
+        add(label1);
 
         //Set boundaries
         textArea.setBounds(10, 10, 650, 450);
@@ -95,6 +106,7 @@ public class Display extends JPanel implements ActionListener {
         nonceField.setBounds(670, 395, 140, 30);
         nonceLabel.setBounds(670, 370, 140, 30);
         retrieveBtn.setBounds(670, 430, 140, 35);
+        label1.setBounds(10, 10, 650, 450);
 
         //Add action listeners
         saveButton.addActionListener(this);
