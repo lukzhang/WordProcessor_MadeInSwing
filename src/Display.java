@@ -1,7 +1,11 @@
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Display extends JPanel implements ActionListener {
 
@@ -18,11 +22,15 @@ public class Display extends JPanel implements ActionListener {
     private JButton retrieveBtn;
 
     //Image, videos....
-    private ImageIcon image1;
+    private ImageIcon clouds;
     private JLabel label1;
     private ImageIcon image2;
     private JLabel label2;
+    private JLabel chooseImageLabel;
+    private JComboBox imageCombo;
 
+    //HashMap to display name of file, and location
+    Map<String, String> imageMap = new HashMap<>();
 
     //Displays what the current doc is
     private String currDoc = "";
@@ -37,6 +45,8 @@ public class Display extends JPanel implements ActionListener {
     //Create some arrays
     String[] colorItems = {"Red", "Blue", "Green", "Purple", "Orange", "Black"};
     String[] fontItems = {"Monospaced", "Serif", "Sans Serif"};
+    String[] bgItems = {"clouds", "cosmos", "London"};
+    String[] bgLocations = {"/clouds.png", "/cosmos.png", "/London.png"};
 
     public Display(){
         init();
@@ -61,8 +71,15 @@ public class Display extends JPanel implements ActionListener {
         nonceField = new JTextField(100);
         nonceLabel = new JLabel("Select Copy Version");
         retrieveBtn = new JButton("Retrieve Copy");
-        image1 = new ImageIcon(getClass().getResource("/clouds.png"));
-        label1 = new JLabel(image1);
+        clouds = new ImageIcon(getClass().getResource("/clouds.png"));
+        label1 = new JLabel(clouds);
+        chooseImageLabel = new JLabel("Choose Background :)");
+        imageCombo = new JComboBox(bgItems);
+
+        //add images and their locations to hashmap
+        for(int i=0; i<bgItems.length; i++){
+            imageMap.put(bgItems[i], bgLocations[i]);
+        }
 
 
         //Work with slider
@@ -73,11 +90,11 @@ public class Display extends JPanel implements ActionListener {
         fontSize.setPaintLabels(true);
 
         //Make the text area look presentable
-        //textArea.setBackground(Color.WHITE);
-        textArea.setOpaque(false);
+        textArea.setBackground(Color.WHITE);
+        textArea.setOpaque(false);  //Make transparent
 
         //Adjust size and layout
-        setPreferredSize(new Dimension(817, 473));
+        setPreferredSize(new Dimension(1000, 473));
         setLayout(null);
 
         //Add components
@@ -92,7 +109,9 @@ public class Display extends JPanel implements ActionListener {
         add (nonceField);
         add (nonceLabel);
         add (retrieveBtn);
-        add(label1);
+        add (label1);
+        add (chooseImageLabel);
+        add (imageCombo);
 
         //Set boundaries
         textArea.setBounds(10, 10, 650, 450);
@@ -107,12 +126,21 @@ public class Display extends JPanel implements ActionListener {
         nonceLabel.setBounds(670, 370, 140, 30);
         retrieveBtn.setBounds(670, 430, 140, 35);
         label1.setBounds(10, 10, 650, 450);
+        imageCombo.setBounds(850, 150, 140, 35);
+        chooseImageLabel.setBounds(850, 120, 140, 35);
 
         //Add action listeners
         saveButton.addActionListener(this);
         colorCombo.addActionListener(this);
         fontCombo.addActionListener(this);
         retrieveBtn.addActionListener(this);
+        imageCombo.addActionListener(this);
+        fontSize.addChangeListener(this::fontSizeChanged);
+    }
+
+    public void fontSizeChanged(ChangeEvent e){
+        Font font = new Font(fontCombo.getSelectedItem().toString(), Font.PLAIN, fontSize.getValue());
+        textArea.setFont(font);
     }
 
     public void actionPerformed(ActionEvent e){
@@ -125,6 +153,17 @@ public class Display extends JPanel implements ActionListener {
         } if(e.getSource() == fontCombo){
             fontClass.selectFont(fontCombo.getSelectedItem().toString(), fontSize.getValue());
             textArea.setFont(fontClass.getFont());
+        } if(e.getSource() == fontSize){
+
+        } if(e.getSource() == imageCombo){
+            //Maybe use a hashmap for name -> location?
+            String currFile = imageMap.get(imageCombo.getSelectedItem().toString());
+            try{
+                label1.setIcon(new ImageIcon(getClass().getResource(currFile)));
+            } catch(NullPointerException ne){
+                System.out.println("file wasn't found");
+            }
+
         } if(e.getSource() == retrieveBtn){
             String home = "../WordProcessor_MadeInSwing/backups/testDir/";
             String doc = docNameField.getText();
