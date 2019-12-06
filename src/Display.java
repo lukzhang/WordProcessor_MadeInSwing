@@ -45,8 +45,8 @@ public class Display extends JPanel implements ActionListener {
     //Create some arrays
     String[] colorItems = {"Red", "Blue", "Green", "Purple", "Orange", "Black"};
     String[] fontItems = {"Monospaced", "Serif", "Sans Serif"};
-    String[] bgItems = {"clouds", "cosmos", "London"};
-    String[] bgLocations = {"/clouds.png", "/cosmos.png", "/London.png"};
+    String[] bgItems = {"clouds", "cosmos", "London", "avacado"};
+    String[] bgLocations = {"/clouds.png", "/cosmos.png", "/London.png", "/avacado.gif"};
 
     public Display(){
         init();
@@ -114,7 +114,7 @@ public class Display extends JPanel implements ActionListener {
         add (imageCombo);
 
         //Set boundaries
-        textArea.setBounds(10, 10, 650, 450);
+        textArea.setBounds(50, 50, 600, 400);
         saveButton.setBounds(670, 270, 140, 35);
         colorCombo.setBounds(670, 205, 140, 53);
         fontCombo.setBounds(670, 150, 140, 35);
