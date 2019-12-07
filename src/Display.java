@@ -1,3 +1,6 @@
+import uk.co.caprica.vlcj.player.MediaPlayerFactory;
+import uk.co.caprica.vlcj.player.embedded.EmbeddedMediaPlayer;
+
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import java.awt.*;
@@ -53,6 +56,9 @@ public class Display extends JPanel implements ActionListener {
     }
 
     public void init(){
+        MediaPlayerFactory mediaPlayerFactory = new MediaPlayerFactory();
+        EmbeddedMediaPlayer emp = mediaPlayerFactory.newEmbeddedMediaPlayer();
+
         Font font;
         Color color;
 
